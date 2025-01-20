@@ -68,7 +68,11 @@ Edit
 git clone https://github.com/<your-username>/<your-repo-name>.git
 Open index.html in a browser to start the game.
 Hosting on GitHub Pages
-The project is hosted using GitHub Pages. To host your own version:
+The project is hosted using GitHub Pages. 
+
+https://bhargavaalapati.github.io/quizz-mini/
+
+To host your own version:
 
 Push your project to a GitHub repository.
 Go to Settings > Pages.
