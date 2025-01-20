@@ -5,6 +5,7 @@ const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
 
+let answered = false; // Add this after your variable declarations
 let shuffledQuestions, currentQuestionIndex;
 let quizScore = 0;
 
@@ -27,8 +28,10 @@ function startGame() {
 
 function setNextQuestion() {
     resetState();
+    answered = false; // Reset the answered state for the new question
     showQuestion(shuffledQuestions[currentQuestionIndex]);
 }
+
 
 function showQuestion(question) {
     questionElement.innerText = question.question;
@@ -52,27 +55,40 @@ function resetState() {
     }
 }
 
-function selectAnswer(e) {
-    const selectedButton = e.target;
-    const correct = selectedButton.dataset.correct === 'true';
 
+function selectAnswer(e) {
+    if (answered) return; // Prevent further clicks
+
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+
+    // Mark the question as answered
+    answered = true;
+
+    // Set the status class for the selected answer and the body
     setStatusClass(document.body, correct);
     Array.from(answerButtonsElement.children).forEach((button) => {
-        setStatusClass(button, button.dataset.correct === 'true');
+        setStatusClass(button, button.dataset.correct);
+
+        // Disable all buttons after an answer is selected
+        button.disabled = true;
     });
 
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextButton.classList.remove('hide');
-    } else {
-        startButton.innerText = 'Restart';
-        startButton.classList.remove('hide');
-    }
-
-    if (correct) {
+    if (correct === "true") {
         quizScore++;
     }
-    document.getElementById('right-answers').innerText = quizScore;
+
+    if (shuffledQuestions.length > currectQuestionIndex + 1) {
+        nextButton.classList.remove("hide");
+    } else {
+        startButton.innerText = "Restart";
+        startButton.classList.remove("hide");
+    }
+
+    document.getElementById("right-answers").innerText = quizScore;
 }
+
+// Reset the `answered` variable in `setNextQuestion
 
 function setStatusClass(element, correct) {
     clearStatusClass(element);
