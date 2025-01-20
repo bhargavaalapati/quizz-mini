@@ -5,7 +5,7 @@ const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
 
-let answered = false; // Add this after your variable declarations
+let answered = false; // Prevent multiple clicks
 let shuffledQuestions, currentQuestionIndex;
 let quizScore = 0;
 
@@ -18,20 +18,19 @@ nextButton.addEventListener('click', () => {
 
 function startGame() {
     startButton.classList.add('hide');
-    shuffledQuestions = questions.sort(() => Math.random() - 0.5);
+    shuffledQuestions = questions.sort(() => Math.random() - 0.5); // Shuffle questions
     currentQuestionIndex = 0;
+    quizScore = 0; // Reset score
+    document.getElementById('right-answers').innerText = quizScore; // Reset score display
     questionContainerElement.classList.remove('hide');
     setNextQuestion();
-    quizScore = 0;
-    document.getElementById('right-answers').innerText = quizScore;
 }
 
 function setNextQuestion() {
     resetState();
-    answered = false; // Reset the answered state for the new question
+    answered = false; // Reset the answered state
     showQuestion(shuffledQuestions[currentQuestionIndex]);
 }
-
 
 function showQuestion(question) {
     questionElement.innerText = question.question;
@@ -55,40 +54,35 @@ function resetState() {
     }
 }
 
-
 function selectAnswer(e) {
-    if (answered) return; // Prevent further clicks
+    if (answered) return; // Prevent further clicks on this question
 
     const selectedButton = e.target;
-    const correct = selectedButton.dataset.correct;
+    const correct = selectedButton.dataset.correct === "true"; // Ensure boolean comparison
 
-    // Mark the question as answered
-    answered = true;
+    answered = true; // Mark the question as answered
 
-    // Set the status class for the selected answer and the body
     setStatusClass(document.body, correct);
     Array.from(answerButtonsElement.children).forEach((button) => {
-        setStatusClass(button, button.dataset.correct);
+        setStatusClass(button, button.dataset.correct === "true");
 
-        // Disable all buttons after an answer is selected
+        // Disable all buttons after selection
         button.disabled = true;
     });
 
-    if (correct === "true") {
+    if (correct) {
         quizScore++;
     }
 
-    if (shuffledQuestions.length > currectQuestionIndex + 1) {
-        nextButton.classList.remove("hide");
+    document.getElementById('right-answers').innerText = quizScore;
+
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+        nextButton.classList.remove('hide'); // Show "Next" button
     } else {
         startButton.innerText = "Restart";
-        startButton.classList.remove("hide");
+        startButton.classList.remove('hide'); // Show "Restart" button
     }
-
-    document.getElementById("right-answers").innerText = quizScore;
 }
-
-// Reset the `answered` variable in `setNextQuestion
 
 function setStatusClass(element, correct) {
     clearStatusClass(element);
@@ -133,12 +127,12 @@ const questions = [
         answers: [
             { text: 'Delhi', correct: false },
             { text: 'New Delhi', correct: true },
-            { text: 'Maharastra', correct: false},
-            { text: 'Haryana', correct: false}
+            { text: 'Maharashtra', correct: false },
+            { text: 'Haryana', correct: false },
         ],
     },
     {
-        question: 'What is 100000000*798563?',
+        question: 'What is 100000000 * 798563?',
         answers: [
             { text: '8.98657e', correct: false },
             { text: '7.98563e', correct: true },
