@@ -20,10 +20,15 @@ bash
 Copy
 Edit
 quiz-project/
+
 ├── index.html    # Main HTML file
+
 ├── app.css       # CSS styles for the project
+
 ├── script.js     # JavaScript logic for the quiz
+
 HTML
+
 The index.html file defines the structure of the game, including:
 
 A container for displaying questions and answers.
