@@ -74,10 +74,3 @@ Push your project to a GitHub repository.
 Go to Settings > Pages.
 Select the main branch and save.
 Access the live URL provided by GitHub.
-Future Improvements
-Add more questions dynamically from an external API.
-Include a timer for each question.
-Add levels of difficulty and more visual effects.
-License
-This project is open-source and available under the MIT License.
- 
